@@ -124,26 +124,34 @@ def get_serial(target, server_root):
     if not domain.is_absolute():
         domain = domain.concatenate(dns.name.root)
 
-    request = dns.message.make_query(domain, dns.rdatatype.A, use_edns=0) # use_edns = 0? for below code
+    request = dns.message.make_query(domain, dns.rdatatype.SOA) # use_edns = 0? for below code
+    request.use_edns(options=[dns.edns.GenericOption(dns.edns.NSID, b'')]) # seems to work...
 
     try:
-        response = dns.query.udp(request, server_root, timeout=2.0) # timeout 2 seconds, throws timeout exception (try around it), .4
+        # response = dns.query.udp(request, server_root, timeout=2.0) # timeout 2 seconds, throws timeout exception (try around it), .4
+        response = dns.query.udp(request, server_root, timeout=2.0)
+        nsid = "BLANK"
+        for opt in response.options:
+            if opt.otype == dns.edns.NSID:
+                nsid = opt.data
+                print("NSID", nsid) # got em
+
 
         for rrset in response.authority:
             if rrset.rdtype == dns.rdatatype.SOA and rrset.name == dns.name.root: # makes sure its the root that owns the record
-                return int(rrset[0].serial)
+                return int(rrset[0].serial), nsid
             else:
                 print("error explanation")
     except Exception as e:
         print("[Domain Analyzer][Error] %s" % e)
-        return -1
+        return -1, -1
 
 
-def measure(root_name, target_address, server_root, serial_map):
+def measure(root_name, target_address, server_root, serial_map, nsid_map):
     file_name = str(root_name) + ".txt"
     previous_serial = serial_map[root_name]
-    current_serial = get_serial(target_address, server_root)
-    if current_serial != previous_serial or current_serial == -1: # switch to > ?
+    current_serial, nsid = get_serial(target_address, server_root)
+    if current_serial != previous_serial or current_serial == -1:
         # print(iter)
         if current_serial == -1:
             with open(file_name, 'a') as the_file:
@@ -153,10 +161,11 @@ def measure(root_name, target_address, server_root, serial_map):
         else:
             # print(file_name)
             with open(file_name, 'a') as the_file:
-                first = str(datetime.now().time()) + " " + str(current_serial) + "\n"
+                first = str(datetime.now().time()) + " " + str(current_serial) + " " + nsid + "\n"
                 the_file.write(first)
             
             serial_map[root_name] = current_serial
+            nsid_map[root_name] = (nsid, current_serial)
 
     
 def good_time(current, target):
@@ -210,9 +219,11 @@ def main(argv):
     target_address = "example.com_byu_imaal_lab" + str(iter)
 
     serial_map = {}
+    nsid_map = {}
     for s in roots:
-        previous_serial = get_serial(target_address, s[1])
+        previous_serial, nsid = get_serial(target_address, s[1])
         serial_map[s[0]] =  previous_serial
+        nsid_map[s[0]] = (previous_serial, nsid)
 
     list_of_times = ["00:00:00", 
                     "01:00:00",
@@ -250,7 +261,7 @@ def main(argv):
         if good_time(current_time, target_time):
             threads = []
             for r in roots:
-                x = threading.Thread(target=measure, args=(r[0], target_address, r[1], serial_map)) # file_name, target_address, server_root, previous_serial
+                x = threading.Thread(target=measure, args=(r[0], target_address, r[1], serial_map, nsid_map)) # file_name, target_address, server_root, previous_serial
                 x.start()
                 threads.append(x)
 
