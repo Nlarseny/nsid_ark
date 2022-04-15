@@ -118,6 +118,7 @@ def deltaTimeStamp(time_a, time_b):
 def get_serial(target, server_root):
     #domain = '199.7.91.13' aka the target
     #name_server = '8.8.8.8' aka server_root # @ part of dig
+    target = "."
     ADDITIONAL_RDCLASS = 65535
 
     domain = dns.name.from_text(target)
@@ -137,9 +138,12 @@ def get_serial(target, server_root):
                 print("NSID", nsid) # got em
 
 
-        for rrset in response.authority:
-            if rrset.rdtype == dns.rdatatype.SOA and rrset.name == dns.name.root: # makes sure its the root that owns the record
+        for rrset in response.answer:
+            if rrset.rdtype == dns.rdatatype.SOA:
+                print("SERIAL", int(rrset[0].serial)) # got em
                 return int(rrset[0].serial), nsid
+            # if rrset.rdtype == dns.rdatatype.SOA and rrset.name == dns.name.root: # makes sure its the root that owns the record
+                
             else:
                 print("error explanation")
     except Exception as e:
