@@ -135,17 +135,16 @@ def get_serial(target, server_root):
         for opt in response.options:
             if opt.otype == dns.edns.NSID:
                 nsid = opt.data
-                print("NSID", nsid) # got em
+                temp = nsid.decode("utf-8") + " nsid"
+                print(temp) # got em
 
 
         for rrset in response.answer:
             if rrset.rdtype == dns.rdatatype.SOA:
                 print("SERIAL", int(rrset[0].serial)) # got em
-                return int(rrset[0].serial), nsid
+                return int(rrset[0].serial), nsid.decode("utf-8")
             # if rrset.rdtype == dns.rdatatype.SOA and rrset.name == dns.name.root: # makes sure its the root that owns the record
-                
-            else:
-                print("error explanation")
+            
     except Exception as e:
         print("[Domain Analyzer][Error] %s" % e)
         return -1, -1
@@ -159,7 +158,7 @@ def measure(root_name, target_address, server_root, serial_map, nsid_map):
         # print(iter)
         if current_serial == -1:
             with open(file_name, 'a') as the_file:
-                first = str(datetime.now().time()) + " TIMED OUT" + "\n"
+                first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
                 the_file.write(first)
             
         else:
