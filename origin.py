@@ -6,7 +6,7 @@ import dns.message
 import dns.query
 import dns.flags
 import dns
-import threading
+import dns.resolver
 
 
 class TimeStamps:
@@ -116,9 +116,10 @@ def deltaTimeStamp(time_a, time_b):
 
 
 def get_serial(target, server_root):
-    #domain = '199.7.91.13' aka the target
+
     #name_server = '8.8.8.8' aka server_root # @ part of dig
-    target = "."
+    # target = "."
+    server_root = "10.8.0.2"
     ADDITIONAL_RDCLASS = 65535
 
     domain = dns.name.from_text(target)
@@ -135,14 +136,14 @@ def get_serial(target, server_root):
         for opt in response.options:
             if opt.otype == dns.edns.NSID:
                 nsid = opt.data
-                temp = nsid.decode("utf-8") + " nsid"
-                print(temp) # got em
+                nsid = nsid.decode("utf-8") + " nsid"
+                # print(nsid) # got em
 
 
-        for rrset in response.answer:
+        for rrset in response.authority:
             if rrset.rdtype == dns.rdatatype.SOA:
-                print("SERIAL", int(rrset[0].serial)) # got em
-                return int(rrset[0].serial), nsid.decode("utf-8")
+                # print("SERIAL", int(rrset[0].serial)) # got em
+                return int(rrset[0].serial), nsid
             # if rrset.rdtype == dns.rdatatype.SOA and rrset.name == dns.name.root: # makes sure its the root that owns the record
             
     except Exception as e:
@@ -215,67 +216,51 @@ def main(argv):
             ("ICANN-v6", "2001:500:9f::42"),
             ("WIDE-v6", "2001:dc3::35")]
 
-    print(len(roots))
-
-
     iter = 0
-    target_address = "example.com_byu_imaal_lab" + str(iter)
 
     serial_map = {}
     nsid_map = {}
-    for s in roots:
-        previous_serial, nsid = get_serial(target_address, s[1])
-        serial_map[s[0]] =  previous_serial
-        nsid_map[s[0]] = (previous_serial, nsid)
+    
+    flagger = 1
+    while flagger:
+        iter += 1
+        target_address = "example.com_byu_imaal_lab" + str(iter)
 
-    list_of_times = ["00:00:00", 
-                    "01:00:00",
-                    "02:00:00", 
-                    "03:00:00",
-                    "04:00:00", 
-                    "05:00:00",
-                    "06:00:00", 
-                    "07:00:00",
-                    "08:00:00", 
-                    "09:00:00",
-                    "10:00:00", 
-                    "11:00:00",
-                    "12:00:00", 
-                    "13:00:00",
-                    "14:00:00", 
-                    "15:00:00",
-                    "16:00:00", 
-                    "17:00:00",
-                    "18:00:00", 
-                    "19:00:00",
-                    "20:00:00", 
-                    "21:00:00",
-                    "22:00:00", 
-                    "23:00:00"]
+        for s in roots:
+            previous_serial, nsid = get_serial(target_address, s[1])
+            serial_map[s[0]] =  previous_serial
+            nsid_map[s[0]] = (previous_serial, nsid)
 
-    current_time = createTimeStamp()
-    target_time = next_target(list_of_times, current_time)
-    iter += 1
-    target_address = "example.com_byu_imaal_lab_test" + str(iter)
+        print(serial_map.values())
 
-    while 1:
-        current_time = createTimeStamp()
+        first = list(serial_map.values())[0]
+        trip_wire = 0
+        for a in serial_map.values():
+            if a != first:
+                trip_wire = 1
 
-        if good_time(current_time, target_time):
-            
-            for r in roots:
-                x = 0
+        old_serials = serial_map
+        # print(trip_wire)
+        if trip_wire:
+            time.sleep(60)
+            trip_wire = 0
 
-            time.sleep(gap_time)
-        else:
-            target_time = next_target(list_of_times, current_time)
-            iter += 1
-            target_address = "example.com_byu_imaal_lab_test" + str(iter)
+            for s in roots:
+                previous_serial, nsid = get_serial(target_address, s[1])
+                serial_map[s[0]] =  previous_serial
+                nsid_map[s[0]] = (previous_serial, nsid)
+
+                if serial_map[s[0]] == old_serials[s[0]]:
+                    with open("nohup.out", 'w') as the_file:
+                        first = s + " NO update"
+                        the_file.write(first)
+                else:
+                    with open("nohup.out", 'w') as the_file:
+                        first = s + " updated"
+                        the_file.write(first)
 
 
-        with open("nohup.out", 'w') as the_file:
-            first = str(iter)
-            the_file.write(first)
+    
 
 
 if __name__ == "__main__":
