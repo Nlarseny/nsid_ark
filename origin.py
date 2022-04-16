@@ -119,7 +119,7 @@ def get_serial(target, server_root):
 
     #name_server = '8.8.8.8' aka server_root # @ part of dig
     # target = "."
-    server_root = "10.8.0.2"
+    server_root = "192.168.25.253"
     ADDITIONAL_RDCLASS = 65535
 
     domain = dns.name.from_text(target)
@@ -236,7 +236,7 @@ def main(argv):
         first = list(serial_map.values())[0]
         trip_wire = 0
         for a in serial_map.values():
-            if a != first:
+            if a != first: # bug-> -1 throws everything off
                 trip_wire = 1
 
         old_serials = serial_map
@@ -250,13 +250,18 @@ def main(argv):
                 serial_map[s[0]] =  previous_serial
                 nsid_map[s[0]] = (previous_serial, nsid)
 
-                if serial_map[s[0]] == old_serials[s[0]]:
-                    with open("origin_results.txt", 'a') as the_file:
-                        first = s + " NO update " + serial_map[s[0]]
-                        the_file.write(first)
+                if serial_map[s[0]] == old_serials[s[0]] and serial_map[s[0]]:
+                    if serial_map[s[0]] != -1:
+                        with open("origin_results.txt", 'a') as the_file:
+                            first = s[0] + " TIMEOUT " + str(serial_map[s[0]])
+                            the_file.write(first)
+                    else:
+                        with open("origin_results.txt", 'a') as the_file:
+                            first = s[0] + " NO update " + str(serial_map[s[0]])
+                            the_file.write(first)
                 else:
                     with open("origin_results.txt", 'a') as the_file:
-                        first = s + " updated " + serial_map[s[0]]
+                        first = s[0] + " updated " + str(serial_map[s[0]])
                         the_file.write(first)
 
 
