@@ -251,12 +251,12 @@ def main(argv):
                 nsid_map[s[0]] = (previous_serial, nsid)
 
                 if serial_map[s[0]] == old_serials[s[0]]:
-                    with open("nohup.out", 'w') as the_file:
-                        first = s + " NO update"
+                    with open("origin_results.txt", 'a') as the_file:
+                        first = s + " NO update " + serial_map[s[0]]
                         the_file.write(first)
                 else:
-                    with open("nohup.out", 'w') as the_file:
-                        first = s + " updated"
+                    with open("origin_results.txt", 'a') as the_file:
+                        first = s + " updated " + serial_map[s[0]]
                         the_file.write(first)
 
 
