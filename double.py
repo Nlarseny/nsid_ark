@@ -120,8 +120,8 @@ def deltaTimeStamp(time_a, time_b):
 def get_serial(target, server_root):
 
     #name_server = '8.8.8.8' aka server_root # @ part of dig
-    # target = "."
-    server_root = "192.168.86.1"
+    server_root = "127.0.0.1"
+
     ADDITIONAL_RDCLASS = 65535
 
     domain = dns.name.from_text(target)
@@ -188,12 +188,28 @@ def good_time(current, target):
 
 def switch_resolver(resolver):
     if resolver == "BIND":
-        reso = subprocess.Popen(["sh", "start_bind.sh"])
+        reso = subprocess.Popen(["sudo", "sh", "start_bind.sh"])
     else:
-        reso = subprocess.Popen(["sh", "start_unbound.sh"])
+        reso = subprocess.Popen(["sudo", "sh", "start_unbound.sh"])
 
 
 def main(argv):
+
+    # # TEST
+    # while 1:
+    #     flg = "BIND"
+    #     print(flg)
+    #     switch_resolver(flg)
+
+    #     time.sleep(3)
+    #     flg = "UNBOUND"
+    #     print(flg)
+    #     switch_resolver(flg)
+
+    #     time.sleep(3)
+
+
+
     gap_time = 10
 
     # hit the other addresses
@@ -225,7 +241,8 @@ def main(argv):
             ("WIDE-v6", "2001:dc3::35")]
 
     iter = 0
-
+    target_address = "example.com_byu_imaal_lab" + str(iter)
+    
     serial_map = {}
     nsid_map = {}
     
@@ -239,6 +256,7 @@ def main(argv):
 
     flagger = 1
     while flagger:
+        print("Working on BIND")
         resolver_flag = "BIND"
         switch_resolver(resolver_flag)
 
@@ -273,6 +291,7 @@ def main(argv):
 
 
         # this is where we can call our scripts to test and then switch
+        print("Working on unbound")
         resolver_flag = "UNBOUND"
         switch_resolver(resolver_flag)
 

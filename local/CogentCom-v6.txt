@@ -1,0 +1,4 @@
+00:39:13.863408 2022041700 ord1b.c.root-servers.org
+11:52:34.353875 2022041701 ord1b.c.root-servers.org
+23:19:01.146156 2022041800 ord1b.c.root-servers.org
+11:36:45.954690 2022041801 ord1b.c.root-servers.org
