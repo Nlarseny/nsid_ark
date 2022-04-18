@@ -192,6 +192,8 @@ def switch_resolver(resolver):
     else:
         reso = subprocess.Popen(["sudo", "sh", "start_unbound.sh"])
 
+    time.sleep(2) # start up
+
 
 def main(argv):
 
@@ -242,7 +244,7 @@ def main(argv):
 
     iter = 0
     target_address = "example.com_byu_imaal_lab" + str(iter)
-    
+
     serial_map = {}
     nsid_map = {}
     
@@ -256,6 +258,7 @@ def main(argv):
 
     flagger = 1
     while flagger:
+        print(iter)
         print("Working on BIND")
         resolver_flag = "BIND"
         switch_resolver(resolver_flag)
