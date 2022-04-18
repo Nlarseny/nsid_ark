@@ -1,3 +1,4 @@
+from pydoc import resolve
 import sys
 from datetime import datetime
 import time
@@ -7,6 +8,7 @@ import dns.query
 import dns.flags
 import dns
 import dns.resolver
+import subprocess
 
 
 class TimeStamps:
@@ -184,6 +186,12 @@ def good_time(current, target):
         return False
     
 
+def switch_resolver(resolver):
+    if resolver == "BIND":
+        reso = subprocess.Popen(["sh", "start_bind.sh"])
+    else:
+        reso = subprocess.Popen(["sh", "start_unbound.sh"])
+
 
 def main(argv):
     gap_time = 10
@@ -221,52 +229,77 @@ def main(argv):
     serial_map = {}
     nsid_map = {}
     
+    # init
+    for s in roots:
+        previous_serial, nsid = get_serial(target_address, s[1])
+        serial_map[s[0]] =  previous_serial
+
+    old_serials = serial_map
+
+
     flagger = 1
     while flagger:
+        resolver_flag = "BIND"
+        switch_resolver(resolver_flag)
+
         iter += 1
         target_address = "example.com_byu_imaal_lab" + str(iter)
 
         for s in roots:
             previous_serial, nsid = get_serial(target_address, s[1])
-            serial_map[s[0]] =  previous_serial
+            serial_map[s[0]] = previous_serial
             nsid_map[s[0]] = (previous_serial, nsid)
 
-        print(serial_map.values())
+        
+        for s in roots:
+            if serial_map[s[0]] != old_serials[s[0]] and serial_map[s[0]] != -1 and old_serials[s[0]] != -1:
+                # at this point we know a serial has updated
+                # we can send another unique bad request and see what the serial is
+                # if the serial is different and not -1, then report incomplete update
+                # else report complete update
+                iter += 1
+                target_address = "example.com_byu_imaal_lab" + str(iter)
+                new_serial, nsid = get_serial(target_address, s[1])
 
-        first = list(serial_map.values())[0]
-        trip_wire = 0
-        for a in serial_map.values():
-            if a != first and a != -1: # bug-> -1 throws everything off
-                trip_wire = 1
+                if new_serial != -1 and new_serial != serial_map[s[0]]:
+                    with open("double_results_bind.txt", 'a') as the_file:
+                        first = s[0] + " INCOMPLETE update " + str(serial_map[s[0]])
+                        the_file.write(first)
 
-        old_serials = serial_map
-        # print(trip_wire)
-        if trip_wire:
-            time.sleep(60)
-            trip_wire = 0
-
-            for s in roots:
-                previous_serial, nsid = get_serial(target_address, s[1])
-                serial_map[s[0]] =  previous_serial
-                nsid_map[s[0]] = (previous_serial, nsid)
-
-                if serial_map[s[0]] == old_serials[s[0]] and serial_map[s[0]]:
-                    if serial_map[s[0]] != -1:
-                        with open("origin_results.txt", 'a') as the_file:
-                            first = s[0] + " TIMEOUT " + str(serial_map[s[0]])
-                            the_file.write(first)
-                    else:
-                        with open("origin_results.txt", 'a') as the_file:
-                            first = s[0] + " NO update " + str(serial_map[s[0]])
-                            the_file.write(first)
                 else:
-                    with open("origin_results.txt", 'a') as the_file:
-                        first = s[0] + " updated " + str(serial_map[s[0]])
+                    with open("double_results_bind.txt", 'a') as the_file:
+                        first = s[0] + " COMPLETE update " + str(serial_map[s[0]])
                         the_file.write(first)
 
 
-    
+        # this is where we can call our scripts to test and then switch
+        resolver_flag = "UNBOUND"
+        switch_resolver(resolver_flag)
 
+        for s in roots:
+            if serial_map[s[0]] != old_serials[s[0]] and serial_map[s[0]] != -1 and old_serials[s[0]] != -1:
+                # at this point we know a serial has updated
+                # we can send another unique bad request and see what the serial is
+                # if the serial is different and not -1, then report incomplete update
+                # else report complete update
+                iter += 1
+                target_address = "example.com_byu_imaal_lab" + str(iter)
+                new_serial, nsid = get_serial(target_address, s[1])
+
+                if new_serial != -1 and new_serial != serial_map[s[0]]:
+                    with open("double_results_unbound.txt", 'a') as the_file:
+                        first = s[0] + " INCOMPLETE update " + str(serial_map[s[0]])
+                        the_file.write(first)
+
+                else:
+                    with open("double_results_unbound.txt", 'a') as the_file:
+                        first = s[0] + " COMPLETE update " + str(serial_map[s[0]])
+                        the_file.write(first)
+
+
+
+        old_serials = serial_map
+        time.sleep(gap_time)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
