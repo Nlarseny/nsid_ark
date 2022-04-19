@@ -220,9 +220,9 @@ def main(argv):
                         first = s[0] + " COMPLETE update " + str(serial_map[s[0]]) + "\n"
                         the_file.write(first)
 
-
         old_serials = deepcopy(serial_map)
         time.sleep(gap_time)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

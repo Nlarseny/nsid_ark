@@ -10,6 +10,7 @@ import dns
 import dns.resolver
 
 
+# This is my custom time class to keep track of time in a light weight way
 class TimeStamps:
     def __init__(self, hour = 0, min = 0, sec = 0):
         self.hour = hour
@@ -28,99 +29,15 @@ class TimeStamps:
         return line
 
 
-def createTimeStamp():
-    x = datetime.now().time()
-
-    hour = x.strftime("%H")
-    minute = x.strftime("%M")
-    second = x.strftime("%S")
-
-    result = TimeStamps(int(hour), int(minute), int(second))
-
-    return result
-
-
-def checkIfTime(time_a, time_b, flex_max, flex_min):
-    delta = deltaTimeStamp(time_a, time_b)
-    #print(delta)
-    if delta >= flex_min and delta <= flex_max:
-        #print("hit")
-        return True
-    else:
-        return False
-
-
-def negCheckIfTime(time_a, time_b, flex_min):
-    delta = deltaTimeStamp(time_a, time_b)
-    if delta <= flex_min:
-        # print("hit (neg)")
-        return True
-    else:
-        return False
-
-
-def next_target(time_list, current_time):
-    # print(time_list)
-    times = []
-    for i in time_list:
-        x = str(i)
-        x = x.strip()
-        #print(x)
-        result = x.split(":")
-        final = TimeStamps(int(result[0]), int(result[1]), float(result[2]))
-
-        times.append(final)
-
-    # current_time.print_time()
-    time_till = []
-    for t in times:
-        delta = deltaTimeStamp(current_time, t)
-        # t.print_time()
-        # print(delta, "!!!")
-        time_till.append(delta)
-
-    smallest = 99999999999999
-    iter = -1
-    small_iter = -1
-    all_neg_flag = 1
-    for t in time_till:
-        iter += 1
-        # print(iter)
-        if t >= 0:
-            all_neg_flag = 0
-            if t < smallest:
-                smallest = t
-                small_iter = iter
-
-    # if all the times are before the current time 
-    if all_neg_flag:
-        iter = -1
-        for t in time_till:
-            iter += 1
-            if t < smallest:
-                smallest = t
-                small_iter = iter
-
-
-    # print(small_iter, smallest, time_till[small_iter])
-    #times[small_iter].print_time()
-    return times[small_iter]
-
-
-# current, target to get time till
-def deltaTimeStamp(time_a, time_b):
-    total_a_seconds = time_a.to_seconds()
-    total_b_seconds = time_b.to_seconds()
-
-    # z = y - x
-    return total_b_seconds - total_a_seconds
-
-
+# Will return the most current serial number from a SOA record
+# The server_root argument is synomous with the @ command of dig
+# An exception will be thrown if an unexpected result occurs
+# NOTE: update to your local (or the node's) resolver ip
 def get_serial(target, server_root):
 
     #name_server = '8.8.8.8' aka server_root # @ part of dig
     # target = "."
-    server_root = "192.168.25.253"
+    server_root = "192.168.25.253" # NOTE: update to your local (or the node's) resolver ip
     ADDITIONAL_RDCLASS = 65535
 
     domain = dns.name.from_text(target)
@@ -150,40 +67,6 @@ def get_serial(target, server_root):
     except Exception as e:
         print("[Domain Analyzer][Error] %s" % e)
         return -1, -1
-
-
-def measure(root_name, target_address, server_root, serial_map, nsid_map):
-    file_name = str(root_name) + ".txt"
-    previous_serial = serial_map[root_name]
-    current_serial, nsid = get_serial(target_address, server_root)
-    if current_serial != previous_serial or current_serial == -1:
-        # print(iter)
-        if current_serial == -1:
-            with open(file_name, 'a') as the_file:
-                first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
-                the_file.write(first)
-            
-        else:
-            # print(file_name)
-            with open(file_name, 'a') as the_file:
-                first = str(datetime.now().time()) + " " + str(current_serial) + " " + nsid + "\n"
-                the_file.write(first)
-            
-            serial_map[root_name] = current_serial
-            nsid_map[root_name] = (nsid, current_serial)
-
-    
-def good_time(current, target):
-    current_hour = current.hour
-    target_hour = target.hour
-
-    if current_hour < target_hour:
-        return True
-    elif target_hour == 0 and current_hour == 23:
-        return True
-    else:
-        return False
-    
 
 
 def main(argv):
@@ -264,9 +147,6 @@ def main(argv):
                     with open("origin_results.txt", 'a') as the_file:
                         first = s[0] + " updated " + str(serial_map[s[0]]) + "\n"
                         the_file.write(first)
-
-
-    
 
 
 if __name__ == "__main__":
