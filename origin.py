@@ -1,3 +1,4 @@
+from copy import deepcopy
 import sys
 from datetime import datetime
 import time
@@ -119,7 +120,7 @@ def get_serial(target, server_root):
 
     #name_server = '8.8.8.8' aka server_root # @ part of dig
     # target = "."
-    server_root = "192.168.86.1"
+    server_root = "192.168.25.253"
     ADDITIONAL_RDCLASS = 65535
 
     domain = dns.name.from_text(target)
@@ -239,7 +240,7 @@ def main(argv):
             if a != first and a != -1: # bug-> -1 throws everything off
                 trip_wire = 1
 
-        old_serials = serial_map
+        old_serials = deepcopy(serial_map)
         # print(trip_wire)
         if trip_wire:
             time.sleep(60)
@@ -253,15 +254,15 @@ def main(argv):
                 if serial_map[s[0]] == old_serials[s[0]] and serial_map[s[0]]:
                     if serial_map[s[0]] != -1:
                         with open("origin_results.txt", 'a') as the_file:
-                            first = s[0] + " TIMEOUT " + str(serial_map[s[0]])
+                            first = s[0] + " TIMEOUT " + str(serial_map[s[0]]) + "\n"
                             the_file.write(first)
                     else:
                         with open("origin_results.txt", 'a') as the_file:
-                            first = s[0] + " NO update " + str(serial_map[s[0]])
+                            first = s[0] + " NO update " + str(serial_map[s[0]]) + "\n"
                             the_file.write(first)
                 else:
                     with open("origin_results.txt", 'a') as the_file:
-                        first = s[0] + " updated " + str(serial_map[s[0]])
+                        first = s[0] + " updated " + str(serial_map[s[0]]) + "\n"
                         the_file.write(first)
 
 

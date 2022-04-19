@@ -1,3 +1,4 @@
+from copy import deepcopy
 from pydoc import resolve
 import sys
 from datetime import datetime
@@ -212,7 +213,7 @@ def main(argv):
 
 
 
-    gap_time = 10
+    gap_time = 30
 
     # hit the other addresses
     roots = [("verisign(a)-v4", "198.41.0.4"),
@@ -253,7 +254,7 @@ def main(argv):
         previous_serial, nsid = get_serial(target_address, s[1])
         serial_map[s[0]] =  previous_serial
 
-    old_serials = serial_map
+    old_serials = deepcopy(serial_map)
 
 
     flagger = 1
@@ -284,12 +285,12 @@ def main(argv):
 
                 if new_serial != -1 and new_serial != serial_map[s[0]]:
                     with open("double_results_bind.txt", 'a') as the_file:
-                        first = s[0] + " INCOMPLETE update " + str(serial_map[s[0]])
+                        first = s[0] + " INCOMPLETE update " + str(serial_map[s[0]]) + "\n"
                         the_file.write(first)
 
-                else:
+                elif new_serial != -1:
                     with open("double_results_bind.txt", 'a') as the_file:
-                        first = s[0] + " COMPLETE update " + str(serial_map[s[0]])
+                        first = s[0] + " COMPLETE update " + str(serial_map[s[0]]) + "\n"
                         the_file.write(first)
 
 
@@ -310,17 +311,17 @@ def main(argv):
 
                 if new_serial != -1 and new_serial != serial_map[s[0]]:
                     with open("double_results_unbound.txt", 'a') as the_file:
-                        first = s[0] + " INCOMPLETE update " + str(serial_map[s[0]])
+                        first = s[0] + " INCOMPLETE update " + str(serial_map[s[0]]) + "\n"
                         the_file.write(first)
 
                 else:
                     with open("double_results_unbound.txt", 'a') as the_file:
-                        first = s[0] + " COMPLETE update " + str(serial_map[s[0]])
+                        first = s[0] + " COMPLETE update " + str(serial_map[s[0]]) + "\n"
                         the_file.write(first)
 
 
 
-        old_serials = serial_map
+        old_serials = deepcopy(serial_map)
         time.sleep(gap_time)
 
 if __name__ == "__main__":
