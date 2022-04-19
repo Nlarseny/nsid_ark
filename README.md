@@ -16,5 +16,7 @@ The timechecker_unfinished folder has programs that never worked reliably on the
 
 In untested_extra there are two different programs that could be beneficial.
 
+The program origin.py uses the default resolver and an nxdomain causing request to see if a root server is updated after 60 seconds.
+
 The program double.py tests the UNBOUND and BIND resolvers. A faulty request is sent every n seconds to all the root servers. As soon as a change is detected, a new bad request is sent through the BIND resolver that needs to be set up on the machine this is being run on. A new serial is returned and compared to see if the SOA is updated. The program then switches the resolver to UNBOUND and the same process is repeated after switching the resolver back to BIND. This continues until the user terminates the program. This is an automated version of what I did to do the initial tests on the solvers to check out negative caching.
 
