@@ -9,6 +9,7 @@ import dns
 import threading
 
 
+# This is my custom time class to keep track of time in a light weight way
 class TimeStamps:
     def __init__(self, hour = 0, min = 0, sec = 0):
         self.hour = hour
@@ -27,6 +28,7 @@ class TimeStamps:
         return line
 
 
+# This creates a new TimeStamp object from the current time and date
 def createTimeStamp():
     x = datetime.now().time()
 
@@ -39,43 +41,22 @@ def createTimeStamp():
     return result
 
 
-def checkIfTime(time_a, time_b, flex_max, flex_min):
-    delta = deltaTimeStamp(time_a, time_b)
-    #print(delta)
-    if delta >= flex_min and delta <= flex_max:
-        #print("hit")
-        return True
-    else:
-        return False
-
-
-def negCheckIfTime(time_a, time_b, flex_min):
-    delta = deltaTimeStamp(time_a, time_b)
-    if delta <= flex_min:
-        # print("hit (neg)")
-        return True
-    else:
-        return False
-
-
+# This will get the next target time to compare with, if it is 22:01 then in this program and 
+# with the list provided in main it will give back 23:00
 def next_target(time_list, current_time):
-    # print(time_list)
     times = []
     for i in time_list:
         x = str(i)
         x = x.strip()
-        #print(x)
+
         result = x.split(":")
         final = TimeStamps(int(result[0]), int(result[1]), float(result[2]))
 
         times.append(final)
 
-    # current_time.print_time()
     time_till = []
     for t in times:
         delta = deltaTimeStamp(current_time, t)
-        # t.print_time()
-        # print(delta, "!!!")
         time_till.append(delta)
 
     smallest = 99999999999999
@@ -84,7 +65,7 @@ def next_target(time_list, current_time):
     all_neg_flag = 1
     for t in time_till:
         iter += 1
-        # print(iter)
+
         if t >= 0:
             all_neg_flag = 0
             if t < smallest:
@@ -100,13 +81,11 @@ def next_target(time_list, current_time):
                 smallest = t
                 small_iter = iter
 
-
-    # print(small_iter, smallest, time_till[small_iter])
-    #times[small_iter].print_time()
     return times[small_iter]
 
 
-# current, target to get time till
+# Returns the difference between two TimeStamp objects
+# result = time_b - time_a
 def deltaTimeStamp(time_a, time_b):
     total_a_seconds = time_a.to_seconds()
     total_b_seconds = time_b.to_seconds()
@@ -115,6 +94,10 @@ def deltaTimeStamp(time_a, time_b):
     return total_b_seconds - total_a_seconds
 
 
+# Will return the most current serial number from a SOA record
+# The server_root argument is synomous with the @ command of dig
+# An exception will be thrown if an unexpected result occurs
+# This version will return the nsid as well
 def get_serial(target, server_root):
     #domain = '199.7.91.13' aka the target
     #name_server = '8.8.8.8' aka server_root # @ part of dig
@@ -125,7 +108,7 @@ def get_serial(target, server_root):
     if not domain.is_absolute():
         domain = domain.concatenate(dns.name.root)
 
-    request = dns.message.make_query(domain, dns.rdatatype.SOA) # use_edns = 0? for below code
+    request = dns.message.make_query(domain, dns.rdatatype.SOA)
     request.use_edns(options=[dns.edns.GenericOption(dns.edns.NSID, b'')]) # seems to work...
 
     try:
@@ -143,26 +126,25 @@ def get_serial(target, server_root):
             if rrset.rdtype == dns.rdatatype.SOA:
                 print("SERIAL", int(rrset[0].serial)) # got em
                 return int(rrset[0].serial), nsid.decode("utf-8")
-            # if rrset.rdtype == dns.rdatatype.SOA and rrset.name == dns.name.root: # makes sure its the root that owns the record
             
     except Exception as e:
         print("[Domain Analyzer][Error] %s" % e)
         return -1, -1
 
 
+# Puts a lot of the functions together to write out the result of if a SOA record
+# was updated or not (or the node experienced a timeout when requesting)
 def measure(root_name, target_address, server_root, serial_map, nsid_map):
     file_name = str(root_name) + ".txt"
     previous_serial = serial_map[root_name]
     current_serial, nsid = get_serial(target_address, server_root)
     if current_serial != previous_serial or current_serial == -1:
-        # print(iter)
         if current_serial == -1:
             with open(file_name, 'a') as the_file:
                 first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
                 the_file.write(first)
             
         else:
-            # print(file_name)
             with open(file_name, 'a') as the_file:
                 first = str(datetime.now().time()) + " " + str(current_serial) + " " + nsid + "\n"
                 the_file.write(first)
@@ -171,6 +153,7 @@ def measure(root_name, target_address, server_root, serial_map, nsid_map):
             nsid_map[root_name] = (nsid, current_serial)
 
     
+# checks time to make sure the program doesn't experience time drift
 def good_time(current, target):
     current_hour = current.hour
     target_hour = target.hour
@@ -214,9 +197,6 @@ def main(argv):
             ("RIPE-v6", "2001:7fd::1"),
             ("ICANN-v6", "2001:500:9f::42"),
             ("WIDE-v6", "2001:dc3::35")]
-
-    print(len(roots))
-
 
     iter = 0
     target_address = "example.com_byu_imaal_lab" + str(iter)

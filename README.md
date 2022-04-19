@@ -14,7 +14,8 @@ The timeout_counter.py program simply totals how many occurances of TIME OUT sho
 
 The timechecker_unfinished folder has programs that never worked reliably on the nodes.
 
-In untested_extra there are two different programs that could be beneficial.
+
+In untested_extra there are two different programs that could be beneficial, they just haven't been run for more then 15 minutes.
 
 The program origin.py uses the default resolver and an nxdomain causing request to see if a root server is updated after 60 seconds.
 
