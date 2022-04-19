@@ -10,25 +10,6 @@ import dns
 import dns.resolver
 
 
-# This is my custom time class to keep track of time in a light weight way
-class TimeStamps:
-    def __init__(self, hour = 0, min = 0, sec = 0):
-        self.hour = hour
-        self.min = min
-        self.sec = sec
-
-    def print_time(self):
-        line = str(self.hour) + ":" + str(self.min) + ":" + str(self.sec)
-        print(line)
-
-    def to_seconds(self):
-        return (self.hour * 3600) + (self.min * 60) + self.sec
-
-    def get_time(self):
-        line = str(self.hour) + ":" + str(self.min) + ":" + str(self.sec)
-        return line
-
-
 # Will return the most current serial number from a SOA record
 # The server_root argument is synomous with the @ command of dig
 # An exception will be thrown if an unexpected result occurs
