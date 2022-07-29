@@ -1,1 +1,180 @@
-528
+35027
+Exception in thread Thread-18390372:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390386:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390387:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390388:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390389:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390390:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390391:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390392:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390393:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390394:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390395:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390397:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390396:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390398:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    first = str(datetime.now().time()) + " TIMED OUT" + " " + nsid + "\n"
+TypeError: must be str, not int
+
+Exception in thread Thread-18390412:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    if current_hour < target_hour:
+TypeError: must be str, not int
+
+Exception in thread Thread-18390413:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    if current_hour < target_hour:
+TypeError: must be str, not int
+
+Exception in thread Thread-18390414:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    if current_hour < target_hour:
+TypeError: must be str, not int
+
+Exception in thread Thread-18390415:
+Traceback (most recent call last):
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/local/ark/pkg/python-3.6.6/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "../tophour.py", line 161, in measure
+    if current_hour < target_hour:
+TypeError: must be str, not int
