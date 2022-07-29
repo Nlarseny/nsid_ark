@@ -1,0 +1,6 @@
+00:39:54.405825 2022041700 SLC.cf.f.root-servers.org
+00:40:04.549588 2022041601 SLC.cf.f.root-servers.org
+00:40:14.694386 2022041700 SLC.cf.f.root-servers.org
+11:53:14.898434 2022041701 SLC.cf.f.root-servers.org
+23:19:31.546116 2022041800 SLC.cf.f.root-servers.org
+11:37:16.358214 2022041801 SLC.cf.f.root-servers.org

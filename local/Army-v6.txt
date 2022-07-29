@@ -1,0 +1,4 @@
+00:39:13.856257 2022041700 001.nzy.h.root-servers.org
+11:52:34.348412 2022041701 001.nzy.h.root-servers.org
+23:19:01.139747 2022041800 001.nzy.h.root-servers.org
+11:36:45.948535 2022041801 001.nzy.h.root-servers.org
