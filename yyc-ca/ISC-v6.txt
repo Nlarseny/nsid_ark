@@ -1,3 +1,27 @@
 05:13:49.903939 2022032500
 15:26:02.481960 2022032501
 17:15:17.015614 2022032502
+05:13:29.719252 2022041500 YYC.cf.f.root-servers.org
+19:03:20.411270 2022041501 YYC.cf.f.root-servers.org
+05:40:27.194618 2022041600 YYC.cf.f.root-servers.org
+17:24:59.423345 2022041601 YYC.cf.f.root-servers.org
+06:40:06.595907 2022041700 YYC.cf.f.root-servers.org
+17:53:28.885522 2022041701 YYC.cf.f.root-servers.org
+05:19:37.495090 2022041800 YYC.cf.f.root-servers.org
+17:37:30.107533 2022041801 YYC.cf.f.root-servers.org
+05:32:02.203090 2022041900 YYC.cf.f.root-servers.org
+17:34:13.138950 2022041901 YYC.cf.f.root-servers.org
+05:11:37.134130 2022042000 YYC.cf.f.root-servers.org
+17:33:59.868674 2022042001 YYC.cf.f.root-servers.org
+18:08:51.457739 2022042002 YYC.cf.f.root-servers.org
+05:46:55.452596 2022042100 YYC.cf.f.root-servers.org
+16:08:53.352588 2022042101 YYC.cf.f.root-servers.org
+21:55:32.058429 2022042102 YYC.cf.f.root-servers.org
+21:55:44.511025 2022042101 YYC.cf.f.root-servers.org
+21:55:56.836479 2022042102 YYC.cf.f.root-servers.org
+05:10:07.765977 2022042200 YYC.cf.f.root-servers.org
+19:00:52.526717 2022042201 YYC.cf.f.root-servers.org
+20:55:21.541603 2022042202 YYC.cf.f.root-servers.org
+06:01:52.223680 2022042300 YYC.cf.f.root-servers.org
+17:11:14.314060 2022042301 YYC.cf.f.root-servers.org
+05:27:06.981393 2022042400 YYC.cf.f.root-servers.org

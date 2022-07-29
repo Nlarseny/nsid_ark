@@ -2,3 +2,25 @@
 05:17:24.543608 TIMED OUT
 15:25:41.163678 2022032501
 17:14:55.495625 2022032502
+05:12:45.907431 2022041500 lax1b.c.root-servers.org
+19:02:48.615578 2022041501 lax1b.c.root-servers.org
+05:39:33.975061 2022041600 lax1a.c.root-servers.org
+17:24:33.427133 2022041601 lax1b.c.root-servers.org
+06:39:14.329102 2022041700 lax1b.c.root-servers.org
+17:52:38.189529 2022041701 lax1b.c.root-servers.org
+05:19:00.206718 2022041800 lax1b.c.root-servers.org
+17:36:51.653369 2022041801 lax1b.c.root-servers.org
+05:31:23.671410 2022041900 lax1a.c.root-servers.org
+17:33:22.927608 2022041901 lax1b.c.root-servers.org
+05:10:20.823230 2022042000 lax1a.c.root-servers.org
+17:33:20.486128 2022042001 lax1a.c.root-servers.org
+18:08:25.975326 2022042002 lax1a.c.root-servers.org
+05:46:30.084419 2022042100 lax1b.c.root-servers.org
+16:08:14.031723 2022042101 lax1a.c.root-servers.org
+21:55:32.017113 2022042102 lax1b.c.root-servers.org
+05:09:16.187510 2022042200 lax1a.c.root-servers.org
+18:59:59.772568 2022042201 lax1a.c.root-servers.org
+20:54:54.473314 2022042202 lax1a.c.root-servers.org
+06:01:25.767438 2022042300 lax1a.c.root-servers.org
+17:11:00.986641 2022042301 lax1a.c.root-servers.org
+05:26:03.280122 2022042400 lax1a.c.root-servers.org
